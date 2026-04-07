@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { base44 } from "@/api/base44Client";
 import {
   X, Send, Mic, MicOff, Sparkles, RotateCcw, ChevronDown,
   ExternalLink, Bot, User, Minimize2, Maximize2
@@ -128,11 +127,16 @@ export default function KCFBot() {
     }, 15000);
 
     try {
-      const response = await base44.functions.invoke("kcfBotChat", {
-        message: text.trim(),
-        history: messages.slice(-6),
+      const history = messages.slice(-6).map(m => `${m.role === 'user' ? 'User' : 'Assistant'}: ${m.text}`).join('\n');
+      const prompt = `You are KCF Bot, an AI assistant for the AI Resume Builder by Kindness Community Foundation (KCF LLC). Help users navigate the platform, answer questions about features (resume builder, ATS scanner, interview practice, cover letter AI, career roadmap, templates, job matching), and guide them to the right tools. Be concise and friendly.\n\nConversation so far:\n${history}\n\nUser: ${text.trim()}\n\nAssistant:`;
+
+      const response = await fetch('/.netlify/functions/invoke-llm', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt }),
       });
-      const botReply = response?.data?.reply || "I'm here to help! Email contact@kindnesscommunityfoundation.com for assistance.";
+      const data = await response.json();
+      const botReply = data?.text || "I'm here to help! Email contact@kindnesscommunityfoundation.com for assistance.";
       setMessages(prev => [...prev, { role: "bot", text: botReply, ts: Date.now() }]);
       if (!open) setUnread(u => u + 1);
     } catch (err) {
