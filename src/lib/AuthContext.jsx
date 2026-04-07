@@ -33,14 +33,18 @@ export const AuthProvider = ({ children }) => {
     // so we don't need a separate getSession() call (which causes lock contention).
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       if (session?.user) {
-        const profile = await fetchProfile(session.user);
-        setUser(formatUser(session.user, profile));
+        // Render the app immediately with basic user info, then enrich with profile
+        setUser(formatUser(session.user, null));
         setIsAuthenticated(true);
+        setIsLoadingAuth(false);
+        fetchProfile(session.user).then(profile => {
+          if (profile) setUser(formatUser(session.user, profile));
+        });
       } else {
         setUser(null);
         setIsAuthenticated(false);
+        setIsLoadingAuth(false);
       }
-      setIsLoadingAuth(false);
     });
 
     return () => subscription.unsubscribe();
