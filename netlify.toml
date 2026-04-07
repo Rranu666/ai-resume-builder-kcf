@@ -8,6 +8,7 @@
 
 [functions]
   node_bundler = "esbuild"
+  timeout = 26
 
 # SPA: redirect all routes to index.html
 [[redirects]]

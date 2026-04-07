@@ -16,20 +16,17 @@ export default function CareerRoadmap() {
     setIsLoading(true);
     setTargetRole(targetRole);
     try {
-      const prompt = `You are a senior career coach and talent expert. 
-Generate a detailed, personalized career roadmap for someone who wants to become a "${targetRole}".
-${resumeSummary ? `Their current background: "${resumeSummary}"` : "Assume they are an early-to-mid career professional."}
+      const prompt = `You are a career coach. Generate a career roadmap for someone who wants to become a "${targetRole}".
+${resumeSummary ? `Background: "${resumeSummary}"` : "Assume early-to-mid career professional."}
 
-Return a comprehensive roadmap with actionable items in each category. Each item must have a title, description, and priority (high/medium/low).
-
-Guidelines:
-- certifications: 4-7 specific, well-known credentials (e.g. AWS Certified, PMP, Google Analytics)
-- skills: 6-10 technical and soft skills to develop, be specific (tools, frameworks, methodologies)
-- projects: 4-6 concrete portfolio projects with clear outcomes
-- experiences: 4-6 real-world experiences, roles, or exposure areas to seek out
-- resources: 5-8 specific courses, books, communities, or platforms by name
-- timeline: realistic total timeline (e.g. "6–12 months", "12–18 months")
-- summary: 2-3 sentence personalized overview of the path ahead`;
+Each item needs title, description, priority (high/medium/low). Be concise.
+- certifications: 3-4 specific credentials
+- skills: 4-6 technical and soft skills
+- projects: 3-4 portfolio projects
+- experiences: 3-4 experiences to seek
+- resources: 3-4 courses or books by name
+- timeline: e.g. "6-12 months"
+- summary: 2 sentences`;
 
       const result = await base44.integrations.Core.InvokeLLM({
         prompt,
