@@ -29,17 +29,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    // Check initial session
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      if (session?.user) {
-        const profile = await fetchProfile(session.user);
-        setUser(formatUser(session.user, profile));
-        setIsAuthenticated(true);
-      }
-      setIsLoadingAuth(false);
-    });
-
-    // Listen for auth state changes
+    // onAuthStateChange fires immediately with the initial session,
+    // so we don't need a separate getSession() call (which causes lock contention).
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       if (session?.user) {
         const profile = await fetchProfile(session.user);
@@ -49,6 +40,7 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
         setIsAuthenticated(false);
       }
+      setIsLoadingAuth(false);
     });
 
     return () => subscription.unsubscribe();
@@ -68,10 +60,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   const checkAppState = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session?.user) {
-      const profile = await fetchProfile(session.user);
-      setUser(formatUser(session.user, profile));
+    const { data: { user: currentUser } } = await supabase.auth.getUser();
+    if (currentUser) {
+      const profile = await fetchProfile(currentUser);
+      setUser(formatUser(currentUser, profile));
       setIsAuthenticated(true);
     }
   };
