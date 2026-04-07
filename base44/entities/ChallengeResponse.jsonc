@@ -1,0 +1,32 @@
+{
+  "name": "ChallengeResponse",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string"
+    },
+    "challenge_id": {
+      "type": "string"
+    },
+    "challenge_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "response_text": {
+      "type": "string"
+    },
+    "ai_score": {
+      "type": "number"
+    },
+    "ai_feedback": {
+      "type": "string"
+    },
+    "rank_percentile": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "user_email",
+    "challenge_id"
+  ]
+}

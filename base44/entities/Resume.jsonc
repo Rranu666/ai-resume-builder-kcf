@@ -1,0 +1,204 @@
+{
+  "name": "Resume",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Resume title/name"
+    },
+    "template": {
+      "type": "string",
+      "enum": [
+        "modern",
+        "creative",
+        "executive",
+        "minimal",
+        "tech",
+        "startup",
+        "healthcare",
+        "academic",
+        "finance",
+        "designer",
+        "compact",
+        "infographic"
+      ],
+      "default": "modern",
+      "description": "Selected template"
+    },
+    "personal_info": {
+      "type": "object",
+      "properties": {
+        "full_name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "linkedin": {
+          "type": "string"
+        },
+        "website": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "profile_photo": {
+          "type": "string"
+        }
+      }
+    },
+    "experience": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "company": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "start_date": {
+            "type": "string"
+          },
+          "end_date": {
+            "type": "string"
+          },
+          "current": {
+            "type": "boolean",
+            "default": false
+          },
+          "bullets": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "education": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "degree": {
+            "type": "string"
+          },
+          "institution": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "graduation_year": {
+            "type": "string"
+          },
+          "gpa": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "projects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "technologies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "link": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ats_score": {
+      "type": "number",
+      "description": "ATS optimization score out of 100"
+    },
+    "last_exported": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "title"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "write": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "name": "DailyChallenge",
+  "type": "object",
+  "properties": {
+    "challenge_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "question": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "difficulty": {
+      "type": "string",
+      "enum": [
+        "easy",
+        "medium",
+        "hard"
+      ]
+    },
+    "total_responses": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "challenge_date",
+    "question"
+  ]
+}

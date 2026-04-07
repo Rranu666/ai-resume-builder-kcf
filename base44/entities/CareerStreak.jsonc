@@ -1,0 +1,55 @@
+{
+  "name": "CareerStreak",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string"
+    },
+    "current_streak": {
+      "type": "number",
+      "default": 0
+    },
+    "longest_streak": {
+      "type": "number",
+      "default": 0
+    },
+    "last_activity_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "total_points": {
+      "type": "number",
+      "default": 0
+    },
+    "career_tokens": {
+      "type": "number",
+      "default": 10
+    },
+    "daily_actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "points": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "badges": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "user_email"
+  ]
+}

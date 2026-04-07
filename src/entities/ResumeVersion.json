@@ -1,0 +1,45 @@
+{
+  "name": "ResumeVersion",
+  "type": "object",
+  "properties": {
+    "resume_id": {
+      "type": "string",
+      "description": "Parent resume ID"
+    },
+    "version_number": {
+      "type": "number",
+      "description": "Incremental version number"
+    },
+    "label": {
+      "type": "string",
+      "description": "User-defined label for this snapshot"
+    },
+    "snapshot": {
+      "type": "object",
+      "description": "Full resume data snapshot"
+    },
+    "ats_score": {
+      "type": "number",
+      "description": "ATS score at time of snapshot"
+    },
+    "notes": {
+      "type": "string",
+      "description": "User notes about this version"
+    }
+  },
+  "required": ["resume_id", "version_number", "snapshot"],
+  "rls": {
+    "read": {
+      "$or": [
+        { "created_by": "{{user.email}}" },
+        { "user_condition": { "role": "admin" } }
+      ]
+    },
+    "write": {
+      "$or": [
+        { "created_by": "{{user.email}}" },
+        { "user_condition": { "role": "admin" } }
+      ]
+    }
+  }
+}
